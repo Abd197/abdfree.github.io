@@ -4,7 +4,7 @@ import { Zap, Facebook, Twitter, Instagram, Linkedin, Mail, Phone } from 'lucide
 const Footer = () => {
   const quickLinks = [
     { name: 'Home', href: '#home' },
-    { name: 'Features', href: '#features' },
+    { name: 'Applications', href: '#applications' },
     { name: 'Services', href: '#services' },
     { name: 'About', href: '#about' },
     { name: 'Contact', href: '#contact' }
