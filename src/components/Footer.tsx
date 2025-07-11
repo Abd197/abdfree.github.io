@@ -5,18 +5,18 @@ const Footer = () => {
   const quickLinks = [
     { name: 'Home', href: '#home' },
     { name: 'Applications', href: '#applications' },
-    { name: 'Services', href: '#services' },
+    { name: 'IPTV', href: '#iptv' },
     { name: 'About', href: '#about' },
     { name: 'Contact', href: '#contact' }
   ];
 
-  const services = [
-    'Web Development',
-    'UI/UX Design',
-    'Digital Marketing',
-    'Mobile Development',
-    'Cloud Solutions',
-    'Analytics & Insights'
+  const iptvServices = [
+    'Live TV Streaming',
+    'VOD Platforms',
+    'OTT Solutions',
+    'CDN Services',
+    'Multi-Device Support',
+    'Content Management'
   ];
 
   const socialLinks = [
@@ -73,12 +73,12 @@ const Footer = () => {
           </div>
 
           <div>
-            <h3 className="text-lg font-semibold mb-6">Services</h3>
+            <h3 className="text-lg font-semibold mb-6">IPTV Services</h3>
             <ul className="space-y-3">
-              {services.map((service) => (
+              {iptvServices.map((service) => (
                 <li key={service}>
                   <a
-                    href="#services"
+                    href="#iptv"
                     className="text-gray-400 hover:text-white transition-colors duration-200"
                   >
                     {service}
