@@ -59,7 +59,7 @@ const IPTV = () => {
         {
           icon: Shield,
           title: 'Secure Streaming',
-          description: 'Enterprise-grade security for content protection',
+          description: 'windows-grade security for content protection',
           features: ['DRM Protection', 'Encrypted Streams', 'Anti-Piracy', 'Secure APIs'],
           pricing: 'Starting at $399/month',
           popular: false
