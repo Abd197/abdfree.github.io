@@ -96,7 +96,7 @@ const Applications = () => {
     },
     windows: {
       title: 'windows Solutions',
-      icon: Building2,
+      icon: windows,
       description: 'Scalable enterprise applications for large organizations',
       applications: [
         {
