@@ -94,7 +94,7 @@ const Applications = () => {
         }
       ]
     },
-    enterprise: {
+    windows: {
       title: 'Enterprise Solutions',
       icon: Building2,
       description: 'Scalable enterprise applications for large organizations',
