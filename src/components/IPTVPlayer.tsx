@@ -528,3 +528,5 @@ const IPTVPlayer = () => {
 };
 
 export default IPTVPlayer;
+
+export default IPTVPlayer
