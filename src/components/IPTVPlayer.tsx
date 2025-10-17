@@ -39,8 +39,10 @@ const IPTVPlayer = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [favorites, setFavorites] = useState<string[]>([]);
+  const [showImportDialog, setShowImportDialog] = useState(false);
 
   const videoRef = useRef<HTMLVideoElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Sample IPTV channels for demo
   const sampleChannels: Channel[] = [
@@ -80,6 +82,32 @@ const IPTVPlayer = () => {
       }
     };
   }, []);
+
+  const handleFileImport = () => {
+    if (window.electronAPI) {
+      // Electron version - this would be handled by the menu
+      console.log('Use File menu to import playlist');
+    } else {
+      // Web version - use file input
+      fileInputRef.current?.click();
+    }
+  };
+
+  const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const content = e.target?.result as string;
+        if (content) {
+          const parsedChannels = parseM3U(content);
+          setChannels(parsedChannels);
+          setShowImportDialog(false);
+        }
+      };
+      reader.readAsText(file);
+    }
+  };
 
   const loadPlaylist = async (filePath: string) => {
     if (!window.electronAPI) return;
@@ -329,7 +357,11 @@ const IPTVPlayer = () => {
             </div>
             
             <div className="flex items-center space-x-2">
-              <button className="p-2 hover:bg-gray-700 rounded-lg">
+              <button 
+                onClick={handleFileImport}
+                className="p-2 hover:bg-gray-700 rounded-lg"
+                title="Import M3U Playlist"
+              >
                 <Folder className="w-5 h-5" />
               </button>
               <button className="p-2 hover:bg-gray-700 rounded-lg">
@@ -338,6 +370,41 @@ const IPTVPlayer = () => {
             </div>
           </div>
         </div>
+
+        {/* Hidden file input for web version */}
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept=".m3u,.m3u8,.txt"
+          onChange={handleFileSelect}
+          className="hidden"
+        />
+
+        {/* Import Dialog */}
+        {showImportDialog && (
+          <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div className="bg-gray-800 rounded-lg p-6 max-w-md w-full mx-4">
+              <h3 className="text-lg font-semibold mb-4">Import M3U Playlist</h3>
+              <p className="text-gray-400 mb-4">
+                Select an M3U or M3U8 playlist file to load your IPTV channels.
+              </p>
+              <div className="flex space-x-4">
+                <button
+                  onClick={() => fileInputRef.current?.click()}
+                  className="flex-1 bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg"
+                >
+                  Choose File
+                </button>
+                <button
+                  onClick={() => setShowImportDialog(false)}
+                  className="flex-1 bg-gray-600 hover:bg-gray-700 px-4 py-2 rounded-lg"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Video Player */}
         <div className="flex-1 relative bg-black">
@@ -387,7 +454,14 @@ const IPTVPlayer = () => {
               <div className="text-center">
                 <Tv className="w-16 h-16 text-gray-500 mx-auto mb-4" />
                 <p className="text-gray-500 text-lg">Select a channel to start watching</p>
-                <p className="text-gray-600 text-sm mt-2">Use File → Open Playlist to load your IPTV channels</p>
+                <p className="text-gray-600 text-sm mt-2">Click the folder icon to import your M3U playlist</p>
+                <button
+                  onClick={handleFileImport}
+                  className="mt-4 bg-blue-600 hover:bg-blue-700 px-6 py-2 rounded-lg flex items-center mx-auto"
+                >
+                  <Folder className="w-4 h-4 mr-2" />
+                  Import Playlist
+                </button>
               </div>
             </div>
           )}
